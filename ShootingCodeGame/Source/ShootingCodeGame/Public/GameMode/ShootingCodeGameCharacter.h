@@ -44,6 +44,18 @@ class AShootingCodeGameCharacter : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* LookAction;
 
+	/** Shoot Input Action */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputAction* ShootAction;
+
+	/** PressF Input Action */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputAction* PressFAction;
+
+	/** PressF Input Action */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputAction* ReloadAction;
+
 public:
 	AShootingCodeGameCharacter();
 	
@@ -55,6 +67,15 @@ protected:
 
 	/** Called for looking input */
 	void Look(const FInputActionValue& Value);
+
+	/** Called for Shoot input */
+	void Shoot(const FInputActionValue& Value);
+
+	/** Called for PressF input */
+	void PressF(const FInputActionValue& Value);
+
+	/** Called for PressF input */
+	void Reload(const FInputActionValue& Value);
 			
 
 protected:
@@ -69,5 +90,35 @@ public:
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+
+public:
+	//匙飘况农 内靛 康开
+	UFUNCTION(Server, Reliable)
+	void ReqPressF();
+
+	UFUNCTION(NetMulticast, Reliable)
+	void ResPressF();
+
+	UFUNCTION(Client, Reliable)
+	void ResPressFClient();
+
+	UFUNCTION(Server, Reliable)
+	void ReqShoot();
+
+	UFUNCTION(NetMulticast, Reliable)
+	void ResShoot();
+
+	UFUNCTION(Server, Reliable)
+	void ReqReload();
+
+	UFUNCTION(NetMulticast, Reliable)
+	void ResReload();
+
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UAnimMontage* ShootMontage;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UAnimMontage* ReloadMontage;
 };
 

@@ -1,6 +1,6 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
-#include "ShootingCodeGameCharacter.h"
+#include "GameMode/ShootingCodeGameCharacter.h"
 #include "Engine/LocalPlayer.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
@@ -10,6 +10,7 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
+#include "Kismet/GameplayStatics.h"
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
@@ -70,6 +71,47 @@ void AShootingCodeGameCharacter::BeginPlay()
 }
 
 //////////////////////////////////////////////////////////////////////////
+// Network
+
+void AShootingCodeGameCharacter::ReqPressF_Implementation()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, TEXT("ReqPressF"));
+	ResPressF();
+}
+
+void AShootingCodeGameCharacter::ResPressF_Implementation()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, TEXT("ResPressF"));
+}
+
+void AShootingCodeGameCharacter::ResPressFClient_Implementation()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, TEXT("ResPressFClient"));
+}
+
+void AShootingCodeGameCharacter::ReqShoot_Implementation()
+{
+	ResShoot();
+}
+
+void AShootingCodeGameCharacter::ResShoot_Implementation()
+{
+	PlayAnimMontage(ShootMontage);
+}
+
+
+void AShootingCodeGameCharacter::ReqReload_Implementation()
+{
+	ResReload();
+}
+
+
+void AShootingCodeGameCharacter::ResReload_Implementation()
+{
+	PlayAnimMontage(ReloadMontage);
+}
+
+//////////////////////////////////////////////////////////////////////////
 // Input
 
 void AShootingCodeGameCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -86,6 +128,15 @@ void AShootingCodeGameCharacter::SetupPlayerInputComponent(UInputComponent* Play
 
 		// Looking
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AShootingCodeGameCharacter::Look);
+
+		// Shoot
+		EnhancedInputComponent->BindAction(ShootAction, ETriggerEvent::Started, this, &AShootingCodeGameCharacter::Shoot);
+
+		// PressF
+		EnhancedInputComponent->BindAction(PressFAction, ETriggerEvent::Started, this, &AShootingCodeGameCharacter::PressF);
+
+		// Reload
+		EnhancedInputComponent->BindAction(ReloadAction, ETriggerEvent::Started, this, &AShootingCodeGameCharacter::Reload);
 	}
 	else
 	{
@@ -128,3 +179,21 @@ void AShootingCodeGameCharacter::Look(const FInputActionValue& Value)
 		AddControllerPitchInput(LookAxisVector.Y);
 	}
 }
+
+void AShootingCodeGameCharacter::Shoot(const FInputActionValue& Value)
+{
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, TEXT("Shoot"));
+	ReqShoot();
+}
+
+void AShootingCodeGameCharacter::PressF(const FInputActionValue& Value)
+{
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, TEXT("PressF"));
+	ReqPressF();
+}
+
+void AShootingCodeGameCharacter::Reload(const FInputActionValue& Value)
+{
+	ReqReload();
+}
+
