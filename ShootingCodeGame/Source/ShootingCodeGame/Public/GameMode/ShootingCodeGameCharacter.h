@@ -120,5 +120,8 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UAnimMontage* ReloadMontage;
+
+	UPROPERTY(Replicated, BlueprintReadWrite)
+	FRotator ControlRot;
 };
 
