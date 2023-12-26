@@ -78,6 +78,16 @@ void AShootingCodeGameCharacter::BeginPlay()
 	}
 }
 
+void AShootingCodeGameCharacter::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
+
+	if (HasAuthority() == true)
+	{
+		ControlRot = GetControlRotation();
+	}
+}
+
 //////////////////////////////////////////////////////////////////////////
 // Network
 
