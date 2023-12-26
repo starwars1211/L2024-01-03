@@ -12,6 +12,7 @@
 #include "InputActionValue.h"
 #include "Kismet/GameplayStatics.h"
 #include "Net/UnrealNetwork.h"// DOREPLIFETIME 사용을 위해 추가
+#include "GameMode/ShootingPlayerState.h"
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
@@ -100,6 +101,15 @@ void AShootingCodeGameCharacter::ReqPressF_Implementation()
 void AShootingCodeGameCharacter::ResPressF_Implementation()
 {
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, TEXT("ResPressF"));
+
+	AShootingPlayerState* ps = Cast<AShootingPlayerState>(GetPlayerState());
+	if (false == IsValid(ps))
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("PS is not valid"));
+		return;
+	}
+
+	ps->AddDamage(10.0f);
 }
 
 void AShootingCodeGameCharacter::ResPressFClient_Implementation()
