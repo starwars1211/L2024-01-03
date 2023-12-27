@@ -41,10 +41,17 @@ public:
 	virtual void EventReload_Implementation() override;
 
 public:
+	UFUNCTION(Server, Reliable)
+	void ReqShoot(FVector vStart, FVector vEnd);
+
+public:
+	float GetFireStartLength();
+
+public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	class UStaticMeshComponent* WeaponMesh;
 
-	UPROPERTY(BlueprintReadWrite)
+	UPROPERTY(Replicated, BlueprintReadWrite)
 	ACharacter* m_pOwnChar;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)

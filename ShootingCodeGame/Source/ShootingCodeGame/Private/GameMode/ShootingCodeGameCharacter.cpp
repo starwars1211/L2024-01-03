@@ -63,6 +63,7 @@ void AShootingCodeGameCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProp
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);            
 
 	DOREPLIFETIME(AShootingCodeGameCharacter, ControlRot);
+	DOREPLIFETIME(AShootingCodeGameCharacter, m_EquipWeapon);
 }
 
 void AShootingCodeGameCharacter::BeginPlay()
@@ -88,6 +89,26 @@ void AShootingCodeGameCharacter::Tick(float DeltaSeconds)
 	{
 		ControlRot = GetControlRotation();
 	}
+}
+
+float AShootingCodeGameCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
+{
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, 
+		FString::Printf(TEXT("TakeDamage DamageAmount=%f EventInstigator=%s DamageCauser=%s"), 
+			DamageAmount,
+			*EventInstigator->GetName(),
+			*DamageCauser->GetName()));
+
+	AShootingPlayerState* ps = Cast<AShootingPlayerState>(GetPlayerState());
+	if (false == IsValid(ps))
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("PS is not valid"));
+		return 0.0f;
+	}
+
+	ps->AddDamage(DamageAmount);
+
+	return DamageAmount;
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -240,6 +261,9 @@ void AShootingCodeGameCharacter::Reload(const FInputActionValue& Value)
 
 void AShootingCodeGameCharacter::EquipTestWeapon(TSubclassOf<class AWeapon> WeaponClass)
 {
+	if (false == HasAuthority())
+		return;
+
 	m_EquipWeapon = GetWorld()->SpawnActor<AWeapon>(WeaponClass, FVector(0, 0, 0), FRotator(0, 0, 0));
 
 	AWeapon* pWeapon = Cast<AWeapon>(m_EquipWeapon);
@@ -248,6 +272,20 @@ void AShootingCodeGameCharacter::EquipTestWeapon(TSubclassOf<class AWeapon> Weap
 
 	pWeapon->m_pOwnChar = this;
 
+	TestWeaponSetOwner();
+
 	m_EquipWeapon->AttachToComponent(GetMesh()
 		, FAttachmentTransformRules::SnapToTargetNotIncludingScale, FName("weapon"));
+}
+
+void AShootingCodeGameCharacter::TestWeaponSetOwner()
+{
+	if (IsValid(GetController()))
+	{
+		m_EquipWeapon->SetOwner(GetController());
+		return;
+	}
+
+	FTimerManager& tm = GetWorld()->GetTimerManager();
+	tm.SetTimer(th_BindSetOwner, this, &AShootingCodeGameCharacter::TestWeaponSetOwner, 0.1f, false);
 }

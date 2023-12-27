@@ -87,6 +87,8 @@ protected:
 
 	virtual void Tick(float DeltaSeconds) override;
 
+	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
+
 public:
 	/** Returns CameraBoom subobject **/
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
@@ -120,12 +122,17 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void EquipTestWeapon(TSubclassOf<class AWeapon> WeaponClass);
 
+	UFUNCTION()
+	void TestWeaponSetOwner();
+
 public:
 
 	UPROPERTY(Replicated, BlueprintReadWrite)
 	FRotator ControlRot;
 
-	UPROPERTY(BlueprintReadWrite)
+	UPROPERTY(Replicated, BlueprintReadWrite)
 	AActor* m_EquipWeapon;
+
+	FTimerHandle th_BindSetOwner;
 };
 
