@@ -15,6 +15,9 @@ UCLASS()
 class SHOOTINGCODEGAME_API AShootingPlayerState : public APlayerState
 {
 	GENERATED_BODY()
+
+public:
+	AShootingPlayerState();
 	
 public:
 	UFUNCTION()

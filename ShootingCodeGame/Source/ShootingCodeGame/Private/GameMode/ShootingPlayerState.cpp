@@ -4,6 +4,10 @@
 #include "GameMode/ShootingPlayerState.h"
 #include "Net/UnrealNetwork.h"// DOREPLIFETIME 사용을 위해 추가
 
+AShootingPlayerState::AShootingPlayerState():m_CurHp(100)
+{
+}
+
 void AShootingPlayerState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);

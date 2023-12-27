@@ -21,7 +21,10 @@ public:
 public:
 	void BindMyPlayerState();
 
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
 	void OnUpdateMyHp(float CurHp, float MaxHp);
+
+	void OnUpdateMyHp_Implementation(float CurHp, float MaxHp);
 	
 public:
 	// TSubclassOf : 지정한 클래스와 클래스를 상속한 모든 클래스를 지정 가능
@@ -30,4 +33,6 @@ public:
 
 	UPROPERTY(BlueprintReadWrite)
 	UUserWidget* HudWidget;
+
+	FTimerHandle th_BindMyPlayerState;
 };
