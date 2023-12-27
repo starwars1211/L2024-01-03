@@ -47,6 +47,27 @@ void AWeapon::EventShoot_Implementation()
 
 	UGameplayStatics::SpawnSoundAtLocation(GetWorld(), m_SoundBase,
 		WeaponMesh->GetSocketLocation("muzzle"));
+
+	APlayerController* pPlayer0 = GetWorld()->GetFirstPlayerController();
+
+	FHitResult result;
+	FVector CameraLoc = pPlayer0->PlayerCameraManager->GetCameraLocation();
+	FVector CameraForward = pPlayer0->PlayerCameraManager->GetActorForwardVector();
+	FVector vEnd = (CameraForward * 1000.0f) + CameraLoc;
+
+	FCollisionObjectQueryParams collisionObjParams;
+	collisionObjParams.AddObjectTypesToQuery(ECollisionChannel::ECC_Pawn);
+	collisionObjParams.AddObjectTypesToQuery(ECollisionChannel::ECC_WorldStatic);
+	collisionObjParams.AddObjectTypesToQuery(ECollisionChannel::ECC_WorldDynamic);
+	collisionObjParams.AddObjectTypesToQuery(ECollisionChannel::ECC_PhysicsBody);
+	collisionObjParams.AddObjectTypesToQuery(ECollisionChannel::ECC_Vehicle);
+	collisionObjParams.AddObjectTypesToQuery(ECollisionChannel::ECC_Destructible);
+
+	FCollisionQueryParams collisionParams;
+	collisionParams.AddIgnoredActor(m_pOwnChar);
+
+	GetWorld()->LineTraceSingleByObjectType(result, CameraLoc, vEnd, collisionObjParams, collisionParams);
+	DrawDebugLine(GetWorld(), CameraLoc, vEnd, FColor::Red, false, 5.0f);
 }
 
 void AWeapon::EventReload_Implementation()
