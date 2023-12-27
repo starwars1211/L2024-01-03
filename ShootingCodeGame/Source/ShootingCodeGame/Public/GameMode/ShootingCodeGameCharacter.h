@@ -46,7 +46,7 @@ class AShootingCodeGameCharacter : public ACharacter
 
 	/** Shoot Input Action */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	UInputAction* ShootAction;
+	UInputAction* TriggerAction;
 
 	/** PressF Input Action */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
@@ -69,7 +69,7 @@ protected:
 	void Look(const FInputActionValue& Value);
 
 	/** Called for Shoot input */
-	void Shoot(const FInputActionValue& Value);
+	void Trigger(const FInputActionValue& Value);
 
 	/** Called for PressF input */
 	void PressF(const FInputActionValue& Value);
@@ -105,10 +105,10 @@ public:
 	void ResPressFClient();
 
 	UFUNCTION(Server, Reliable)
-	void ReqShoot();
+	void ReqTrigger();
 
 	UFUNCTION(NetMulticast, Reliable)
-	void ResShoot();
+	void ResTrigger();
 
 	UFUNCTION(Server, Reliable)
 	void ReqReload();
@@ -117,13 +117,15 @@ public:
 	void ResReload();
 
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	UAnimMontage* ShootMontage;
+	UFUNCTION(BlueprintCallable)
+	void EquipTestWeapon(TSubclassOf<class AWeapon> WeaponClass);
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	UAnimMontage* ReloadMontage;
+public:
 
 	UPROPERTY(Replicated, BlueprintReadWrite)
 	FRotator ControlRot;
+
+	UPROPERTY(BlueprintReadWrite)
+	AActor* m_EquipWeapon;
 };
 

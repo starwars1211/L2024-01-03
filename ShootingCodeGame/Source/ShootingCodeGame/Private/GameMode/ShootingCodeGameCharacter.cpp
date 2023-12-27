@@ -13,6 +13,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "Net/UnrealNetwork.h"// DOREPLIFETIME 사용을 위해 추가
 #include "GameMode/ShootingPlayerState.h"
+#include "Blueprints/Weapon.h"
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
@@ -117,14 +118,20 @@ void AShootingCodeGameCharacter::ResPressFClient_Implementation()
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, TEXT("ResPressFClient"));
 }
 
-void AShootingCodeGameCharacter::ReqShoot_Implementation()
+void AShootingCodeGameCharacter::ReqTrigger_Implementation()
 {
-	ResShoot();
+	ResTrigger();
 }
 
-void AShootingCodeGameCharacter::ResShoot_Implementation()
+void AShootingCodeGameCharacter::ResTrigger_Implementation()
 {
-	PlayAnimMontage(ShootMontage);
+	//PlayAnimMontage(ShootMontage);
+
+	IWeaponInterface* InterfaceObj = Cast<IWeaponInterface>(m_EquipWeapon);
+	if (nullptr == InterfaceObj)
+		return;
+
+	InterfaceObj->Execute_EventTrigger(m_EquipWeapon);
 }
 
 
@@ -136,7 +143,7 @@ void AShootingCodeGameCharacter::ReqReload_Implementation()
 
 void AShootingCodeGameCharacter::ResReload_Implementation()
 {
-	PlayAnimMontage(ReloadMontage);
+	//PlayAnimMontage(ReloadMontage);
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -158,7 +165,7 @@ void AShootingCodeGameCharacter::SetupPlayerInputComponent(UInputComponent* Play
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AShootingCodeGameCharacter::Look);
 
 		// Shoot
-		EnhancedInputComponent->BindAction(ShootAction, ETriggerEvent::Started, this, &AShootingCodeGameCharacter::Shoot);
+		EnhancedInputComponent->BindAction(TriggerAction, ETriggerEvent::Started, this, &AShootingCodeGameCharacter::Trigger);
 
 		// PressF
 		EnhancedInputComponent->BindAction(PressFAction, ETriggerEvent::Started, this, &AShootingCodeGameCharacter::PressF);
@@ -208,10 +215,10 @@ void AShootingCodeGameCharacter::Look(const FInputActionValue& Value)
 	}
 }
 
-void AShootingCodeGameCharacter::Shoot(const FInputActionValue& Value)
+void AShootingCodeGameCharacter::Trigger(const FInputActionValue& Value)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, TEXT("Shoot"));
-	ReqShoot();
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, TEXT("Trigger"));
+	ReqTrigger();
 }
 
 void AShootingCodeGameCharacter::PressF(const FInputActionValue& Value)
@@ -225,3 +232,16 @@ void AShootingCodeGameCharacter::Reload(const FInputActionValue& Value)
 	ReqReload();
 }
 
+void AShootingCodeGameCharacter::EquipTestWeapon(TSubclassOf<class AWeapon> WeaponClass)
+{
+	m_EquipWeapon = GetWorld()->SpawnActor<AWeapon>(WeaponClass, FVector(0, 0, 0), FRotator(0, 0, 0));
+
+	AWeapon* pWeapon = Cast<AWeapon>(m_EquipWeapon);
+	if (false == IsValid(pWeapon))
+		return;
+
+	pWeapon->m_pOwnChar = this;
+
+	m_EquipWeapon->AttachToComponent(GetMesh()
+		, FAttachmentTransformRules::SnapToTargetNotIncludingScale, FName("weapon"));
+}

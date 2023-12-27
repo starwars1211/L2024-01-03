@@ -2,6 +2,7 @@
 
 
 #include "Blueprints/Weapon.h"
+#include "GameFramework/Character.h"
 
 // Sets default values
 AWeapon::AWeapon()
@@ -10,6 +11,7 @@ AWeapon::AWeapon()
 	PrimaryActorTick.bCanEverTick = true;
 
 	WeaponMesh = CreateDefaultSubobject<UStaticMeshComponent>("Weapon");
+	WeaponMesh->SetCollisionProfileName("OverlapAllDynamic");
 	SetRootComponent(WeaponMesh);
 
 	bReplicates = true;
@@ -32,6 +34,7 @@ void AWeapon::Tick(float DeltaTime)
 
 void AWeapon::EventTrigger_Implementation()
 {
+	m_pOwnChar->PlayAnimMontage(ShootMontage);
 }
 
 void AWeapon::EventShoot_Implementation()

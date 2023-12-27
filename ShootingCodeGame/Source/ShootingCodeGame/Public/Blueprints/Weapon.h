@@ -38,4 +38,13 @@ public:
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	class UStaticMeshComponent* WeaponMesh;
+
+	UPROPERTY(BlueprintReadWrite)
+	ACharacter* m_pOwnChar;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UAnimMontage* ShootMontage;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UAnimMontage* ReloadMontage;
 };
