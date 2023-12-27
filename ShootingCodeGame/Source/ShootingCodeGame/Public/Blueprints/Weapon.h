@@ -35,6 +35,11 @@ public:
 
 	virtual void EventShoot_Implementation() override;
 
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+	void EventReload();
+
+	virtual void EventReload_Implementation() override;
+
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	class UStaticMeshComponent* WeaponMesh;
@@ -43,8 +48,14 @@ public:
 	ACharacter* m_pOwnChar;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	UAnimMontage* ShootMontage;
+	UAnimMontage* m_ShootMontage;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	UAnimMontage* ReloadMontage;
+	UAnimMontage* m_ReloadMontage;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UParticleSystem* m_FireEffect;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	USoundBase* m_SoundBase;
 };

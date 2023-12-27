@@ -3,6 +3,7 @@
 
 #include "Blueprints/Weapon.h"
 #include "GameFramework/Character.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 AWeapon::AWeapon()
@@ -34,10 +35,22 @@ void AWeapon::Tick(float DeltaTime)
 
 void AWeapon::EventTrigger_Implementation()
 {
-	m_pOwnChar->PlayAnimMontage(ShootMontage);
+	m_pOwnChar->PlayAnimMontage(m_ShootMontage);
 }
 
 void AWeapon::EventShoot_Implementation()
 {
+	UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), m_FireEffect, 
+		WeaponMesh->GetSocketLocation("muzzle"),
+		WeaponMesh->GetSocketRotation("muzzle"),
+		FVector(0.1f, 0.1f, 0.1f));
+
+	UGameplayStatics::SpawnSoundAtLocation(GetWorld(), m_SoundBase,
+		WeaponMesh->GetSocketLocation("muzzle"));
+}
+
+void AWeapon::EventReload_Implementation()
+{
+	m_pOwnChar->PlayAnimMontage(m_ReloadMontage);
 }
 

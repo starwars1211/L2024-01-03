@@ -25,4 +25,7 @@ public:
 
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
 	void EventShoot();
+
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+	void EventReload();
 };

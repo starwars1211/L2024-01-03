@@ -144,6 +144,12 @@ void AShootingCodeGameCharacter::ReqReload_Implementation()
 void AShootingCodeGameCharacter::ResReload_Implementation()
 {
 	//PlayAnimMontage(ReloadMontage);
+
+	IWeaponInterface* InterfaceObj = Cast<IWeaponInterface>(m_EquipWeapon);
+	if (nullptr == InterfaceObj)
+		return;
+
+	InterfaceObj->Execute_EventReload(m_EquipWeapon);
 }
 
 //////////////////////////////////////////////////////////////////////////
