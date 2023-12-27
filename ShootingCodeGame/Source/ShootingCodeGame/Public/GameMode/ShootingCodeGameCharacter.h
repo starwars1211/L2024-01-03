@@ -101,7 +101,7 @@ public:
 	void ReqPressF();
 
 	UFUNCTION(NetMulticast, Reliable)
-	void ResPressF();
+	void ResPressF(AActor* PickUpActor);
 
 	UFUNCTION(Client, Reliable)
 	void ResPressFClient();
@@ -125,12 +125,14 @@ public:
 	UFUNCTION()
 	void TestWeaponSetOwner();
 
+	AActor* FindNearestWeapon();
+
 public:
 
 	UPROPERTY(Replicated, BlueprintReadWrite)
 	FRotator ControlRot;
 
-	UPROPERTY(Replicated, BlueprintReadWrite)
+	UPROPERTY(BlueprintReadWrite)
 	AActor* m_EquipWeapon;
 
 	FTimerHandle th_BindSetOwner;

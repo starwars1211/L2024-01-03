@@ -40,6 +40,11 @@ public:
 
 	virtual void EventReload_Implementation() override;
 
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+	void EventPickUp(ACharacter* pOwnChar);
+
+	virtual void EventPickUp_Implementation(ACharacter* pOwnChar) override;
+
 public:
 	UFUNCTION(Server, Reliable)
 	void ReqShoot(FVector vStart, FVector vEnd);

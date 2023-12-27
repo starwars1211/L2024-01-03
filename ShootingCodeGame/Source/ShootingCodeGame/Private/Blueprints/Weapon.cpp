@@ -14,7 +14,8 @@ AWeapon::AWeapon()
 	PrimaryActorTick.bCanEverTick = true;
 
 	WeaponMesh = CreateDefaultSubobject<UStaticMeshComponent>("Weapon");
-	WeaponMesh->SetCollisionProfileName("OverlapAllDynamic");
+	WeaponMesh->SetCollisionProfileName("Weapon");
+	WeaponMesh->SetSimulatePhysics(true);
 	SetRootComponent(WeaponMesh);
 
 	bReplicates = true;
@@ -71,6 +72,14 @@ void AWeapon::EventShoot_Implementation()
 void AWeapon::EventReload_Implementation()
 {
 	m_pOwnChar->PlayAnimMontage(m_ReloadMontage);
+}
+
+void AWeapon::EventPickUp_Implementation(ACharacter* pOwnChar)
+{
+	m_pOwnChar = pOwnChar;
+
+	WeaponMesh->SetSimulatePhysics(false);
+	AttachToComponent(pOwnChar->GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, FName("weapon"));
 }
 
 void AWeapon::ReqShoot_Implementation(FVector vStart, FVector vEnd)

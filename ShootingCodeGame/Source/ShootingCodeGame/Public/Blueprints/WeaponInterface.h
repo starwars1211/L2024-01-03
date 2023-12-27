@@ -28,4 +28,7 @@ public:
 
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
 	void EventReload();
+
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+	void EventPickUp(ACharacter* pOwnChar);
 };

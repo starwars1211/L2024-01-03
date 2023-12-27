@@ -63,7 +63,6 @@ void AShootingCodeGameCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProp
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);            
 
 	DOREPLIFETIME(AShootingCodeGameCharacter, ControlRot);
-	DOREPLIFETIME(AShootingCodeGameCharacter, m_EquipWeapon);
 }
 
 void AShootingCodeGameCharacter::BeginPlay()
@@ -117,21 +116,27 @@ float AShootingCodeGameCharacter::TakeDamage(float DamageAmount, FDamageEvent co
 void AShootingCodeGameCharacter::ReqPressF_Implementation()
 {
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, TEXT("ReqPressF"));
-	ResPressF();
+	AActor* pNearestActor = FindNearestWeapon();
+
+	if (false == IsValid(pNearestActor))
+		return;
+
+	pNearestActor->SetOwner(GetController());
+
+	ResPressF(pNearestActor);
 }
 
-void AShootingCodeGameCharacter::ResPressF_Implementation()
+void AShootingCodeGameCharacter::ResPressF_Implementation(AActor* PickUpActor)
 {
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, TEXT("ResPressF"));
 
-	AShootingPlayerState* ps = Cast<AShootingPlayerState>(GetPlayerState());
-	if (false == IsValid(ps))
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, TEXT("PS is not valid"));
-		return;
-	}
+	m_EquipWeapon = PickUpActor;
 
-	ps->AddDamage(10.0f);
+	IWeaponInterface* InterfaceObj = Cast<IWeaponInterface>(m_EquipWeapon);
+	if (nullptr == InterfaceObj)
+		return;
+
+	InterfaceObj->Execute_EventPickUp(m_EquipWeapon, this);
 }
 
 void AShootingCodeGameCharacter::ResPressFClient_Implementation()
@@ -146,8 +151,6 @@ void AShootingCodeGameCharacter::ReqTrigger_Implementation()
 
 void AShootingCodeGameCharacter::ResTrigger_Implementation()
 {
-	//PlayAnimMontage(ShootMontage);
-
 	IWeaponInterface* InterfaceObj = Cast<IWeaponInterface>(m_EquipWeapon);
 	if (nullptr == InterfaceObj)
 		return;
@@ -164,8 +167,6 @@ void AShootingCodeGameCharacter::ReqReload_Implementation()
 
 void AShootingCodeGameCharacter::ResReload_Implementation()
 {
-	//PlayAnimMontage(ReloadMontage);
-
 	IWeaponInterface* InterfaceObj = Cast<IWeaponInterface>(m_EquipWeapon);
 	if (nullptr == InterfaceObj)
 		return;
@@ -288,4 +289,24 @@ void AShootingCodeGameCharacter::TestWeaponSetOwner()
 
 	FTimerManager& tm = GetWorld()->GetTimerManager();
 	tm.SetTimer(th_BindSetOwner, this, &AShootingCodeGameCharacter::TestWeaponSetOwner, 0.1f, false);
+}
+
+AActor* AShootingCodeGameCharacter::FindNearestWeapon()
+{
+	TArray<AActor*> actors;
+	GetCapsuleComponent()->GetOverlappingActors(actors, AWeapon::StaticClass());
+
+	double nearestDist = 9999999.0f;
+	AActor* pNearestActor = nullptr;
+	for (AActor* pTarget : actors)
+	{
+		double dist = FVector::Distance(GetActorLocation(), pTarget->GetActorLocation());
+		if (dist >= nearestDist)
+			continue;
+
+		nearestDist = dist;
+		pNearestActor = pTarget;
+	}
+
+	return pNearestActor;
 }
