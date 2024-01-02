@@ -40,3 +40,7 @@ void AShootingHUD::BindMyPlayerState()
 void AShootingHUD::OnUpdateMyHp_Implementation(float CurHp, float MaxHp)
 {
 }
+
+void AShootingHUD::OnUpdateMyAmmo_Implementation(int Ammo)
+{
+}

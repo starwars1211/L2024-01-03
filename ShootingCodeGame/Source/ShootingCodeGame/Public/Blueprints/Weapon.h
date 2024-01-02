@@ -45,6 +45,16 @@ public:
 
 	virtual void EventPickUp_Implementation(ACharacter* pOwnChar) override;
 
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+	void EventResetAmmo();
+
+	virtual void EventResetAmmo_Implementation() override;
+
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+	void EventDrop(ACharacter* pOwnChar);
+
+	virtual void EventDrop_Implementation(ACharacter* pOwnChar) override;
+
 public:
 	UFUNCTION(Server, Reliable)
 	void ReqShoot(FVector vStart, FVector vEnd);
@@ -52,11 +62,21 @@ public:
 public:
 	float GetFireStartLength();
 
+	UFUNCTION(BlueprintPure)
+	bool IsCanShoot();
+
+	bool UseAmmo();
+
+	void SetAmmo(int Ammo);
+
+	UFUNCTION(BlueprintCallable)
+	void OnUpdateAmmoToHud(int Ammo);
+
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	class UStaticMeshComponent* WeaponMesh;
 
-	UPROPERTY(Replicated, BlueprintReadWrite)
+	UPROPERTY(BlueprintReadWrite)
 	ACharacter* m_pOwnChar;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
@@ -70,4 +90,10 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	USoundBase* m_SoundBase;
+
+	UFUNCTION()
+	void OnRep_Ammo();
+
+	UPROPERTY(ReplicatedUsing = OnRep_Ammo)
+	int m_Ammo;
 };

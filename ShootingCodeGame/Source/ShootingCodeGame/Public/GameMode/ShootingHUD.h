@@ -25,6 +25,11 @@ public:
 	void OnUpdateMyHp(float CurHp, float MaxHp);
 
 	void OnUpdateMyHp_Implementation(float CurHp, float MaxHp);
+
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+	void OnUpdateMyAmmo(int Ammo);
+
+	void OnUpdateMyAmmo_Implementation(int Ammo);
 	
 public:
 	// TSubclassOf : 지정한 클래스와 클래스를 상속한 모든 클래스를 지정 가능

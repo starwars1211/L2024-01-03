@@ -14,6 +14,7 @@
 #include "Net/UnrealNetwork.h"// DOREPLIFETIME 사용을 위해 추가
 #include "GameMode/ShootingPlayerState.h"
 #include "Blueprints/Weapon.h"
+#include "Blueprint/UserWidget.h"
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
@@ -78,6 +79,17 @@ void AShootingCodeGameCharacter::BeginPlay()
 			Subsystem->AddMappingContext(DefaultMappingContext, 0);
 		}
 	}
+
+	check(NameTagClass);
+
+	NameTagWidget = CreateWidget<UUserWidget>(GetWorld(), NameTagClass);
+	NameTagWidget->AddToViewport();
+
+	FTimerManager& timerManager = GetWorld()->GetTimerManager();
+	timerManager.SetTimer(th_Nametag, this, 
+		&AShootingCodeGameCharacter::EventUpdateNametag, 0.01f, true);
+
+	BindPlayerState();
 }
 
 void AShootingCodeGameCharacter::Tick(float DeltaSeconds)
@@ -121,6 +133,11 @@ void AShootingCodeGameCharacter::ReqPressF_Implementation()
 	if (false == IsValid(pNearestActor))
 		return;
 
+	if (nullptr != m_EquipWeapon)
+	{
+		m_EquipWeapon->SetOwner(nullptr);
+	}
+
 	pNearestActor->SetOwner(GetController());
 
 	ResPressF(pNearestActor);
@@ -129,6 +146,16 @@ void AShootingCodeGameCharacter::ReqPressF_Implementation()
 void AShootingCodeGameCharacter::ResPressF_Implementation(AActor* PickUpActor)
 {
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, TEXT("ResPressF"));
+
+	if (nullptr != m_EquipWeapon)
+	{
+		IWeaponInterface* InterfaceObj = Cast<IWeaponInterface>(m_EquipWeapon);
+		if (nullptr == InterfaceObj)
+			return;
+
+		InterfaceObj->Execute_EventDrop(m_EquipWeapon, this);
+		m_EquipWeapon = nullptr;
+	}
 
 	m_EquipWeapon = PickUpActor;
 
@@ -174,6 +201,26 @@ void AShootingCodeGameCharacter::ResReload_Implementation()
 	InterfaceObj->Execute_EventReload(m_EquipWeapon);
 }
 
+
+void AShootingCodeGameCharacter::ReqDrop_Implementation()
+{
+	if (false == IsValid(m_EquipWeapon))
+		return;
+
+	m_EquipWeapon->SetOwner(nullptr);
+	ResDrop();
+}
+
+void AShootingCodeGameCharacter::ResDrop_Implementation()
+{
+	IWeaponInterface* InterfaceObj = Cast<IWeaponInterface>(m_EquipWeapon);
+	if (nullptr == InterfaceObj)
+		return;
+
+	InterfaceObj->Execute_EventDrop(m_EquipWeapon, this);
+	m_EquipWeapon = nullptr;
+}
+
 //////////////////////////////////////////////////////////////////////////
 // Input
 
@@ -192,7 +239,7 @@ void AShootingCodeGameCharacter::SetupPlayerInputComponent(UInputComponent* Play
 		// Looking
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AShootingCodeGameCharacter::Look);
 
-		// Shoot
+		// Trigger
 		EnhancedInputComponent->BindAction(TriggerAction, ETriggerEvent::Started, this, &AShootingCodeGameCharacter::Trigger);
 
 		// PressF
@@ -200,6 +247,9 @@ void AShootingCodeGameCharacter::SetupPlayerInputComponent(UInputComponent* Play
 
 		// Reload
 		EnhancedInputComponent->BindAction(ReloadAction, ETriggerEvent::Started, this, &AShootingCodeGameCharacter::Reload);
+
+		// Drop
+		EnhancedInputComponent->BindAction(DropAction, ETriggerEvent::Started, this, &AShootingCodeGameCharacter::Drop);
 	}
 	else
 	{
@@ -260,6 +310,11 @@ void AShootingCodeGameCharacter::Reload(const FInputActionValue& Value)
 	ReqReload();
 }
 
+void AShootingCodeGameCharacter::Drop(const FInputActionValue& Value)
+{
+	ReqDrop();
+}
+
 void AShootingCodeGameCharacter::EquipTestWeapon(TSubclassOf<class AWeapon> WeaponClass)
 {
 	if (false == HasAuthority())
@@ -300,6 +355,9 @@ AActor* AShootingCodeGameCharacter::FindNearestWeapon()
 	AActor* pNearestActor = nullptr;
 	for (AActor* pTarget : actors)
 	{
+		if (m_EquipWeapon == pTarget)
+			continue;
+
 		double dist = FVector::Distance(GetActorLocation(), pTarget->GetActorLocation());
 		if (dist >= nearestDist)
 			continue;
@@ -309,4 +367,17 @@ AActor* AShootingCodeGameCharacter::FindNearestWeapon()
 	}
 
 	return pNearestActor;
+}
+
+void AShootingCodeGameCharacter::EventUpdateNametag_Implementation()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, TEXT("EventUpdateNametag C++"));
+}
+
+void AShootingCodeGameCharacter::EventUpdateNametagHp_Implementation(int CurHp, int MaxHp)
+{
+}
+
+void AShootingCodeGameCharacter::BindPlayerState()
+{
 }

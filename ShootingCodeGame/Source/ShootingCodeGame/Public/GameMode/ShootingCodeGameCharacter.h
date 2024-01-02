@@ -44,7 +44,7 @@ class AShootingCodeGameCharacter : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* LookAction;
 
-	/** Shoot Input Action */
+	/** Trigger Input Action */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* TriggerAction;
 
@@ -52,9 +52,13 @@ class AShootingCodeGameCharacter : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* PressFAction;
 
-	/** PressF Input Action */
+	/** Reload Input Action */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* ReloadAction;
+
+	/** Drop Input Action */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputAction* DropAction;
 
 public:
 	AShootingCodeGameCharacter();
@@ -68,14 +72,17 @@ protected:
 	/** Called for looking input */
 	void Look(const FInputActionValue& Value);
 
-	/** Called for Shoot input */
+	/** Called for Trigger input */
 	void Trigger(const FInputActionValue& Value);
 
 	/** Called for PressF input */
 	void PressF(const FInputActionValue& Value);
 
-	/** Called for PressF input */
+	/** Called for Reload input */
 	void Reload(const FInputActionValue& Value);
+
+	/** Called for Drop input */
+	void Drop(const FInputActionValue& Value);
 			
 
 protected:
@@ -118,6 +125,12 @@ public:
 	UFUNCTION(NetMulticast, Reliable)
 	void ResReload();
 
+	UFUNCTION(Server, Reliable)
+	void ReqDrop();
+
+	UFUNCTION(NetMulticast, Reliable)
+	void ResDrop();
+
 public:
 	UFUNCTION(BlueprintCallable)
 	void EquipTestWeapon(TSubclassOf<class AWeapon> WeaponClass);
@@ -126,6 +139,18 @@ public:
 	void TestWeaponSetOwner();
 
 	AActor* FindNearestWeapon();
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	void EventUpdateNametag();
+
+	void EventUpdateNametag_Implementation();
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	void EventUpdateNametagHp(int CurHp, int MaxHp);
+
+	void EventUpdateNametagHp_Implementation(int CurHp, int MaxHp);
+
+	void BindPlayerState();
 
 public:
 
@@ -136,5 +161,13 @@ public:
 	AActor* m_EquipWeapon;
 
 	FTimerHandle th_BindSetOwner;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TSubclassOf<class UUserWidget> NameTagClass;
+
+	UPROPERTY(BlueprintReadWrite)
+	UUserWidget* NameTagWidget;
+
+	FTimerHandle th_Nametag;
 };
 
