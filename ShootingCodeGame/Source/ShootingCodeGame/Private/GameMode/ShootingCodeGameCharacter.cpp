@@ -374,10 +374,21 @@ void AShootingCodeGameCharacter::EventUpdateNametag_Implementation()
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, TEXT("EventUpdateNametag C++"));
 }
 
-void AShootingCodeGameCharacter::EventUpdateNametagHp_Implementation(int CurHp, int MaxHp)
+void AShootingCodeGameCharacter::EventUpdateNametagHp_Implementation(float CurHp, float MaxHp)
 {
 }
 
 void AShootingCodeGameCharacter::BindPlayerState()
 {
+	AShootingPlayerState* pPS = Cast<AShootingPlayerState>(GetPlayerState());
+	if (IsValid(pPS))
+	{
+		pPS->m_Dele_UpdateHp.AddDynamic(this, &AShootingCodeGameCharacter::EventUpdateNametagHp);
+		EventUpdateNametagHp(pPS->m_CurHp, 100);
+		return;
+	}
+
+	FTimerManager& timerManger = GetWorld()->GetTimerManager();
+	timerManger.SetTimer(th_BindPlayerState, this, 
+		&AShootingCodeGameCharacter::BindPlayerState, 0.01f, false);
 }

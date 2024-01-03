@@ -146,9 +146,9 @@ public:
 	void EventUpdateNametag_Implementation();
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
-	void EventUpdateNametagHp(int CurHp, int MaxHp);
+	void EventUpdateNametagHp(float CurHp, float MaxHp);
 
-	void EventUpdateNametagHp_Implementation(int CurHp, int MaxHp);
+	void EventUpdateNametagHp_Implementation(float CurHp, float MaxHp);
 
 	void BindPlayerState();
 
@@ -169,5 +169,7 @@ public:
 	UUserWidget* NameTagWidget;
 
 	FTimerHandle th_Nametag;
+
+	FTimerHandle th_BindPlayerState;
 };
 
