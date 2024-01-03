@@ -23,11 +23,19 @@ void AShootingPlayerState::AddDamage(float Damage)
 	OnRep_CurHp();
 }
 
+void AShootingPlayerState::AddHeal(float Heal)
+{
+}
+
 void AShootingPlayerState::AddMag()
 {
 	m_Mag = m_Mag + 1;
 
 	OnRep_Mag();
+}
+
+void AShootingPlayerState::UseMag()
+{
 }
 
 void AShootingPlayerState::OnRep_CurHp()

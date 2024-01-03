@@ -25,7 +25,13 @@ public:
 	void AddDamage(float Damage);
 
 	UFUNCTION()
+	void AddHeal(float Heal);
+
+	UFUNCTION()
 	void AddMag();
+
+	UFUNCTION()
+	void UseMag();
 
 public:
 	// replicate function
