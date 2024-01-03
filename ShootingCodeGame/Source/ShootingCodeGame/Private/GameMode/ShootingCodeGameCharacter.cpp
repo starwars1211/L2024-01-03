@@ -392,3 +392,8 @@ void AShootingCodeGameCharacter::BindPlayerState()
 	timerManger.SetTimer(th_BindPlayerState, this, 
 		&AShootingCodeGameCharacter::BindPlayerState, 0.01f, false);
 }
+
+void AShootingCodeGameCharacter::EventGetItem_Implementation()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, TEXT("EventGetItem"));
+}

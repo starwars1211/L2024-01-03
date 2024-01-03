@@ -2,6 +2,7 @@
 
 
 #include "BaseItem.h"
+#include "ItemInterface.h"
 
 // Sets default values
 ABaseItem::ABaseItem()
@@ -18,6 +19,8 @@ ABaseItem::ABaseItem()
 
 	bReplicates = true;
 	SetReplicateMovement(true);
+
+	m_StaticMesh->OnComponentBeginOverlap.AddDynamic(this, &ABaseItem::OnItemBeginOverlap);
 }
 
 // Called every frame
@@ -25,6 +28,15 @@ void ABaseItem::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	m_StaticMesh->AddRelativeRotation(FRotator(0.0f, 1.0f, 0.0f));
+}
+
+void ABaseItem::OnItemBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	IItemInterface* InterfaceObj = Cast<IItemInterface>(OtherActor);
+	if (nullptr == InterfaceObj)
+		return;
+
+	InterfaceObj->Execute_EventGetItem(OtherActor);
 }
 
 // Called when the game starts or when spawned

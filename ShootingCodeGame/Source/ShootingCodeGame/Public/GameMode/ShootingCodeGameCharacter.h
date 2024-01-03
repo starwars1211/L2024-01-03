@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "ItemInterface.h"
 #include "GameFramework/Character.h"
 #include "Logging/LogMacros.h"
 #include "ShootingCodeGameCharacter.generated.h"
@@ -16,7 +17,7 @@ struct FInputActionValue;
 DECLARE_LOG_CATEGORY_EXTERN(LogTemplateCharacter, Log, All);
 
 UCLASS(config=Game)
-class AShootingCodeGameCharacter : public ACharacter
+class AShootingCodeGameCharacter : public ACharacter, public IItemInterface
 {
 	GENERATED_BODY()
 
@@ -151,6 +152,13 @@ public:
 	void EventUpdateNametagHp_Implementation(float CurHp, float MaxHp);
 
 	void BindPlayerState();
+
+public:
+	//ItemInterface
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+	void EventGetItem();
+
+	void EventGetItem_Implementation() override;
 
 public:
 

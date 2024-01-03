@@ -18,4 +18,8 @@ class UItemInterface : public UInterface
 class ITEMPLUGIN_API IItemInterface
 {
 	GENERATED_BODY()
+
+public:
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+	void EventGetItem();
 };
