@@ -2,7 +2,6 @@
 
 
 #include "BaseItem.h"
-#include "ItemInterface.h"
 
 // Sets default values
 ABaseItem::ABaseItem()
@@ -36,7 +35,7 @@ void ABaseItem::OnItemBeginOverlap(UPrimitiveComponent* OverlappedComponent, AAc
 	if (nullptr == InterfaceObj)
 		return;
 
-	InterfaceObj->Execute_EventGetItem(OtherActor);
+	InterfaceObj->Execute_EventGetItem(OtherActor, m_eItemType);
 }
 
 // Called when the game starts or when spawned

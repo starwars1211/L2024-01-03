@@ -13,6 +13,7 @@ void AShootingPlayerState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>&
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
 	DOREPLIFETIME(AShootingPlayerState, m_CurHp);
+	DOREPLIFETIME(AShootingPlayerState, m_Mag);
 }
 
 void AShootingPlayerState::AddDamage(float Damage)
@@ -22,10 +23,23 @@ void AShootingPlayerState::AddDamage(float Damage)
 	OnRep_CurHp();
 }
 
+void AShootingPlayerState::AddMag()
+{
+	m_Mag = m_Mag + 1;
+
+	OnRep_Mag();
+}
+
 void AShootingPlayerState::OnRep_CurHp()
 {
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, FString::Printf(TEXT("OnRep_CurHp = %f"), m_CurHp));
 
 	if(m_Dele_UpdateHp.IsBound())
 		m_Dele_UpdateHp.Broadcast(m_CurHp, 100);
+}
+
+void AShootingPlayerState::OnRep_Mag()
+{
+	if (m_Dele_UpdateMag.IsBound())
+		m_Dele_UpdateMag.Broadcast(m_Mag);
 }

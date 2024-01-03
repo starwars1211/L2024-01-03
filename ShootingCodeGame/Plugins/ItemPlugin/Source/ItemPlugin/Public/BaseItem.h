@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "ItemInterface.h"
 #include "GameFramework/Actor.h"
 #include "BaseItem.generated.h"
 
@@ -33,4 +34,7 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	USceneComponent* m_Scene;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	EItemType m_eItemType;
 };

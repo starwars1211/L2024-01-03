@@ -393,7 +393,30 @@ void AShootingCodeGameCharacter::BindPlayerState()
 		&AShootingCodeGameCharacter::BindPlayerState, 0.01f, false);
 }
 
-void AShootingCodeGameCharacter::EventGetItem_Implementation()
+void AShootingCodeGameCharacter::EventGetItem_Implementation(EItemType itemType)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, TEXT("EventGetItem"));
+	switch (itemType)
+	{
+	case EItemType::IT_MAG:
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, TEXT("EventGetItem Mag"));
+
+		AShootingPlayerState* pPS = Cast<AShootingPlayerState>(GetPlayerState());
+		if (IsValid(pPS))
+		{
+			pPS->AddMag();
+		}
+	}
+	break;
+
+	case EItemType::IT_HEAL:
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, TEXT("EventGetItem Heal"));
+	}
+	break;
+
+	default:
+		break;
+	}
+
 }

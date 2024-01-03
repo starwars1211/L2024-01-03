@@ -28,6 +28,9 @@ void AShootingHUD::BindMyPlayerState()
 			ps->m_Dele_UpdateHp.AddDynamic(this, &AShootingHUD::OnUpdateMyHp);
 			OnUpdateMyHp(ps->m_CurHp, 100);
 
+			ps->m_Dele_UpdateMag.AddDynamic(this, &AShootingHUD::OnUpdateMyMag);
+			OnUpdateMyMag(ps->m_Mag);
+
 			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, TEXT("AShootingHUD Bind Success!"));
 			return;
 		}

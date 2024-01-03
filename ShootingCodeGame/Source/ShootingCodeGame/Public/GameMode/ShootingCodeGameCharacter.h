@@ -156,9 +156,9 @@ public:
 public:
 	//ItemInterface
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
-	void EventGetItem();
+	void EventGetItem(EItemType itemType);
 
-	void EventGetItem_Implementation() override;
+	void EventGetItem_Implementation(EItemType itemType) override;
 
 public:
 
