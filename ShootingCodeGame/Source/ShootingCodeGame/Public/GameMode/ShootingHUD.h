@@ -30,6 +30,11 @@ public:
 	void OnUpdateMyAmmo(int Ammo);
 
 	void OnUpdateMyAmmo_Implementation(int Ammo);
+
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+	void OnUpdateMyMag(int Mag);
+
+	void OnUpdateMyMag_Implementation(int Mag);
 	
 public:
 	// TSubclassOf : 지정한 클래스와 클래스를 상속한 모든 클래스를 지정 가능

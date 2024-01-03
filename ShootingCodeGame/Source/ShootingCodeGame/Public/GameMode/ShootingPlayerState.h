@@ -7,6 +7,7 @@
 #include "ShootingPlayerState.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FDele_UpdateHp, float, CurHp, float, MaxHp);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FDele_UpdateMag, int, Mag);
 
 /**
  * 
@@ -23,10 +24,16 @@ public:
 	UFUNCTION()
 	void AddDamage(float Damage);
 
+	UFUNCTION()
+	void AddMag();
+
 public:
 	// replicate function
 	UFUNCTION()
 	void OnRep_CurHp();
+
+	UFUNCTION()
+	void OnRep_Mag();
 
 public:
 	UPROPERTY(ReplicatedUsing = OnRep_CurHp)
@@ -34,4 +41,10 @@ public:
 
 	UPROPERTY(BlueprintAssignable, VisibleAnywhere, BlueprintCallable)
 	FDele_UpdateHp m_Dele_UpdateHp;
+
+	UPROPERTY(ReplicatedUsing = OnRep_Mag)
+	float m_Mag;
+
+	UPROPERTY(BlueprintAssignable, VisibleAnywhere, BlueprintCallable)
+	FDele_UpdateMag m_Dele_UpdateMag;
 };
