@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <None Include="..\..\ShootingCodeGame.uproject" />
+    <Filter Include="Source">
+      <UniqueIdentifier>{F31BBDD1-B3E8-3BCC-9652-680E16935819}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Source\ShootingCodeGame.Target.cs">
+      <Filter>Source</Filter>
+    </None>
+    <None Include="..\..\Source\ShootingCodeGameEditor.Target.cs">
+      <Filter>Source</Filter>
+    </None>
+    <Filter Include="Config">
+      <UniqueIdentifier>{FA535FFB-25E1-3D20-B416-52F9BE21E06E}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Config\DefaultEditor.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultEditorPerProjectUserSettings.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultEngine.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultGame.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultInput.ini">
+      <Filter>Config</Filter>
+    </None>
+    <Filter Include="Plugins">
+      <UniqueIdentifier>{BB38096A-B391-30DC-A0D4-4F3EA6B44507}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Plugins\ItemPlugin">
+      <UniqueIdentifier>{217C1441-5BC3-3412-93A5-86C725A55999}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Plugins\ItemPlugin\Source">
+      <UniqueIdentifier>{7CE4A46F-0E9E-3B01-B379-E43DF3CF4A03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Plugins\ItemPlugin\Source\ItemPlugin">
+      <UniqueIdentifier>{DAC0CEA5-F75B-3C9F-A39E-9F3A31067EEE}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Plugins\ItemPlugin\Source\ItemPlugin\ItemPlugin.Build.cs">
+      <Filter>Plugins\ItemPlugin\Source\ItemPlugin</Filter>
+    </None>
+    <Filter Include="Plugins\ItemPlugin\Source\ItemPlugin\Private">
+      <UniqueIdentifier>{85C86735-32B4-31A1-A902-51788E3224D7}</UniqueIdentifier>
+    </Filter>
+    <ClCompile Include="..\..\Plugins\ItemPlugin\Source\ItemPlugin\Private\BaseItem.cpp">
+      <Filter>Plugins\ItemPlugin\Source\ItemPlugin\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\ItemPlugin\Source\ItemPlugin\Private\ItemInterface.cpp">
+      <Filter>Plugins\ItemPlugin\Source\ItemPlugin\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\ItemPlugin\Source\ItemPlugin\Private\ItemPlugin.cpp">
+      <Filter>Plugins\ItemPlugin\Source\ItemPlugin\Private</Filter>
+    </ClCompile>
+    <Filter Include="Plugins\ItemPlugin\Source\ItemPlugin\Public">
+      <UniqueIdentifier>{19B056C6-6805-37D8-A875-790B000CDC89}</UniqueIdentifier>
+    </Filter>
+    <ClInclude Include="..\..\Plugins\ItemPlugin\Source\ItemPlugin\Public\BaseItem.h">
+      <Filter>Plugins\ItemPlugin\Source\ItemPlugin\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\ItemPlugin\Source\ItemPlugin\Public\ItemInterface.h">
+      <Filter>Plugins\ItemPlugin\Source\ItemPlugin\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\ItemPlugin\Source\ItemPlugin\Public\ItemPlugin.h">
+      <Filter>Plugins\ItemPlugin\Source\ItemPlugin\Public</Filter>
+    </ClInclude>
+    <None Include="..\..\Plugins\ItemPlugin\ItemPlugin.uplugin">
+      <Filter>Plugins\ItemPlugin</Filter>
+    </None>
+    <Filter Include="Plugins\ItemPlugin\Resources">
+      <UniqueIdentifier>{AAAD5F03-EBA3-3A1E-B3A0-9376D32630A4}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Plugins\ItemPlugin\Resources\Icon128.png">
+      <Filter>Plugins\ItemPlugin\Resources</Filter>
+    </None>
+    <Filter Include="Source\ShootingCodeGame">
+      <UniqueIdentifier>{D20FC298-A302-30CB-873E-FD409E1863A3}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Source\ShootingCodeGame\ShootingCodeGame.Build.cs">
+      <Filter>Source\ShootingCodeGame</Filter>
+    </None>
+    <ClCompile Include="..\..\Source\ShootingCodeGame\ShootingCodeGame.cpp">
+      <Filter>Source\ShootingCodeGame</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\ShootingCodeGame\ShootingCodeGame.h">
+      <Filter>Source\ShootingCodeGame</Filter>
+    </ClInclude>
+    <Filter Include="Source\ShootingCodeGame\Private">
+      <UniqueIdentifier>{4493919C-E818-3A28-BE61-DD64F98F18EE}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\ShootingCodeGame\Private\Blueprints">
+      <UniqueIdentifier>{CA705118-9D80-3872-862F-96115E0F60CA}</UniqueIdentifier>
+    </Filter>
+    <ClCompile Include="..\..\Source\ShootingCodeGame\Private\Blueprints\ActorSpawner.cpp">
+      <Filter>Source\ShootingCodeGame\Private\Blueprints</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\ShootingCodeGame\Private\Blueprints\AnimNotify_Reload.cpp">
+      <Filter>Source\ShootingCodeGame\Private\Blueprints</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\ShootingCodeGame\Private\Blueprints\AnimNotify_Shoot.cpp">
+      <Filter>Source\ShootingCodeGame\Private\Blueprints</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\ShootingCodeGame\Private\Blueprints\MyBall.cpp">
+      <Filter>Source\ShootingCodeGame\Private\Blueprints</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\ShootingCodeGame\Private\Blueprints\Weapon.cpp">
+      <Filter>Source\ShootingCodeGame\Private\Blueprints</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\ShootingCodeGame\Private\Blueprints\WeaponInterface.cpp">
+      <Filter>Source\ShootingCodeGame\Private\Blueprints</Filter>
+    </ClCompile>
+    <Filter Include="Source\ShootingCodeGame\Private\GameMode">
+      <UniqueIdentifier>{F5D31DAA-5399-3779-BAF3-7DD454C9FBD7}</UniqueIdentifier>
+    </Filter>
+    <ClCompile Include="..\..\Source\ShootingCodeGame\Private\GameMode\ShootingCodeGameCharacter.cpp">
+      <Filter>Source\ShootingCodeGame\Private\GameMode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\ShootingCodeGame\Private\GameMode\ShootingCodeGameMode.cpp">
+      <Filter>Source\ShootingCodeGame\Private\GameMode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\ShootingCodeGame\Private\GameMode\ShootingHUD.cpp">
+      <Filter>Source\ShootingCodeGame\Private\GameMode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\ShootingCodeGame\Private\GameMode\ShootingPlayerState.cpp">
+      <Filter>Source\ShootingCodeGame\Private\GameMode</Filter>
+    </ClCompile>
+    <Filter Include="Source\ShootingCodeGame\Public">
+      <UniqueIdentifier>{5DE80FAF-31E0-395E-B40F-6CB4BCAFF4B3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\ShootingCodeGame\Public\Blueprints">
+      <UniqueIdentifier>{89D1244B-D00F-3F0C-BECE-35079FF71380}</UniqueIdentifier>
+    </Filter>
+    <ClInclude Include="..\..\Source\ShootingCodeGame\Public\Blueprints\ActorSpawner.h">
+      <Filter>Source\ShootingCodeGame\Public\Blueprints</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ShootingCodeGame\Public\Blueprints\AnimNotify_Reload.h">
+      <Filter>Source\ShootingCodeGame\Public\Blueprints</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ShootingCodeGame\Public\Blueprints\AnimNotify_Shoot.h">
+      <Filter>Source\ShootingCodeGame\Public\Blueprints</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ShootingCodeGame\Public\Blueprints\MyBall.h">
+      <Filter>Source\ShootingCodeGame\Public\Blueprints</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ShootingCodeGame\Public\Blueprints\Weapon.h">
+      <Filter>Source\ShootingCodeGame\Public\Blueprints</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ShootingCodeGame\Public\Blueprints\WeaponInterface.h">
+      <Filter>Source\ShootingCodeGame\Public\Blueprints</Filter>
+    </ClInclude>
+    <Filter Include="Source\ShootingCodeGame\Public\GameMode">
+      <UniqueIdentifier>{AAFABFA9-9103-34D0-93F5-7D62E0158595}</UniqueIdentifier>
+    </Filter>
+    <ClInclude Include="..\..\Source\ShootingCodeGame\Public\GameMode\ShootingCodeGameCharacter.h">
+      <Filter>Source\ShootingCodeGame\Public\GameMode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ShootingCodeGame\Public\GameMode\ShootingCodeGameMode.h">
+      <Filter>Source\ShootingCodeGame\Public\GameMode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ShootingCodeGame\Public\GameMode\ShootingHUD.h">
+      <Filter>Source\ShootingCodeGame\Public\GameMode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ShootingCodeGame\Public\GameMode\ShootingPlayerState.h">
+      <Filter>Source\ShootingCodeGame\Public\GameMode</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

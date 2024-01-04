@@ -1,0 +1,9 @@
+{
+	"SourceFiles": [
+		"C:\\Users\\PC\\Documents\\Unreal Projects\\L20240103\\VR16\\ShootingCodeGame\\Source\\ShootingCodeGame\\ShootingCodeGame.Build.cs",
+		"C:\\Users\\PC\\Documents\\Unreal Projects\\L20240103\\VR16\\ShootingCodeGame\\Plugins\\ItemPlugin\\Source\\ItemPlugin\\ItemPlugin.Build.cs",
+		"C:\\Users\\PC\\Documents\\Unreal Projects\\L20240103\\VR16\\ShootingCodeGame\\Source\\ShootingCodeGame.Target.cs",
+		"C:\\Users\\PC\\Documents\\Unreal Projects\\L20240103\\VR16\\ShootingCodeGame\\Source\\ShootingCodeGameEditor.Target.cs"
+	],
+	"EngineVersion": "5.3.2"
+}
